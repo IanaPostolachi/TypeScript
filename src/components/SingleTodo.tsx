@@ -1,35 +1,52 @@
-import { type } from '@testing-library/user-event/dist/type';
-import React, { FC } from 'react'
-import * as AiIcons from 'react-icons/ai'; 
-import * as MdIcons from 'react-icons/md'; 
-import { Todo } from '../model';
-import './styles.css'
+import { type } from "@testing-library/user-event/dist/type";
+import React, { FC } from "react";
+import * as AiIcons from "react-icons/ai";
+import * as MdIcons from "react-icons/md";
+import { Todo } from "../model";
+import "./styles.css";
+import TodoList from "./TodoList";
 
 type Props = {
-    todo: Todo,
-    todos: Todo[],
-    setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  todo: Todo;
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+};
+
+const SingleTodo = ({ todo, todos, setTodos }: Props) => {
+ 
+  const handleDone = (id: number) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id?{...todo, isDone:!todo.isDone} : todo
+      )
+    );
+  };
+
+const handleDelete = (id: number) => {
+  setTodos(todos.filter((todo) => todo.id !== id))
 }
 
-const SingleTodo = ({todo, todos, setTodos}:Props) => {
   return (
-    <form className='todos-single'>
-      <span className="todos-single-text">
-        {todo.todo}
-      </span>
+    <form className="todos-single">
+  
+      {todo.isDone ? (
+        <s className="todos-single-text">{todo.todo}</s>
+      ) : (
+        <span className="todos-single-text">{todo.todo}</span>
+      )}
       <div>
-        <span className='icon'>
-            <AiIcons.AiFillEdit/ >
+        <span className="icon" onClick={() =>{}}>
+          <AiIcons.AiFillEdit />
         </span>
-        <span className='icon'>
-            <AiIcons.AiFillDelete />
+        <span className="icon" onClick={() => handleDelete(todo.id)}>
+          <AiIcons.AiFillDelete />
         </span>
-        <span className='icon'>
-            <MdIcons.MdDone/>
+        <span className="icon" onClick={() => handleDone(todo.id)}>
+          <MdIcons.MdDone />
         </span>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default SingleTodo
+export default SingleTodo;
