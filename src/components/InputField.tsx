@@ -10,7 +10,7 @@ interface Props{
     handleAdd:(e: React.FormEvent) => void;
 }
 
-const InputField = ({todo, setTodo, handleAdd}:Props) => {
+const InputField:FC<Props> = ({todo, setTodo, handleAdd}) => {
     const input = useRef<HTMLInputElement>(null)
   
     return (
